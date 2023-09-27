@@ -1,4 +1,4 @@
-const getResponseFromAPI = () => new Promise((resolve, _) => {
+const getResponseFromAPI = () => new Promise((resolve) => {
   setTimeout(() => {
     const apiResponse = 'Success!';
     resolve(apiResponse);
