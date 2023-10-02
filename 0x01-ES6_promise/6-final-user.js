@@ -8,17 +8,16 @@ export default async function handleProfileSignup(firstName, lastName, fileName)
   const results = await Promise.allSettled([signUpPromise, uploadPhotoPromise]);
 
   // Using .map() method, ensure you return a value at each iteration
-  return results.map(result => {
+  return results.map((result) => {
     // Check for 'fulfilled' status and return the appropriate value
     if (result.status === 'fulfilled') {
       return { status: 'fulfilled', value: result.value };
-    } 
+    }
     // Check for 'rejected' status and return the appropriate value
-    else if (result.status === 'rejected') {
+    if (result.status === 'rejected') {
       // Adjust error message format to align with your test's expectation
       return { status: 'rejected', value: `Error: ${result.reason.message}` };
     }
-    // Explicitly return a value (e.g., undefined) for any other case, though this might never be reached
     return undefined;
   });
 }
