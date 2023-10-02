@@ -1,4 +1,4 @@
-import { uploadPhoto, createUser } from './utils.js';
+import { uploadPhoto, createUser } from './utils';
 
 const asyncUploadUser = async () => {
   try {
@@ -7,10 +7,11 @@ const asyncUploadUser = async () => {
 
     return {
       photo: photoResponse,
-      photo: userResponse,
+      user: userResponse,
     };
   } catch (error) {
     console.error(error);
+
     return {
       photo: null,
       user: null,
