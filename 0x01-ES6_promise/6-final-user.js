@@ -1,14 +1,24 @@
 import signUpUser from './4-user-promise';
 import uploadPhoto from './5-photo-reject';
 
-export default function handleProfileSignup(firstName, lastName, fileName) {
-  const signUpPromise = signUpUser(firstName, lastName)
-    .then((value) => ({ status: 'fulfilled', value }))
-    .catch((error) => ({ status: 'rejected', value: error.toString() }));
+export default async function handleProfileSignup(firstName, lastName, fileName) {
+  const signUpPromise = signUpUser(firstName, lastName);
+  const uploadPhotoPromise = uploadPhoto(fileName);
 
-  const uploadPhotoPromise = uploadPhoto(fileName)
-    .then((value) => ({ status: 'fulfilled', value }))
-    .catch((error) => ({ status: 'rejected', value: error.toString() }));
+  const results = await Promise.allSettled([signUpPromise, uploadPhotoPromise]);
 
-  return Promise.allSettled([signUpPromise, uploadPhotoPromise]);
+  // Using .map() method, ensure you return a value at each iteration
+  return results.map(result => {
+    // Check for 'fulfilled' status and return the appropriate value
+    if (result.status === 'fulfilled') {
+      return { status: 'fulfilled', value: result.value };
+    } 
+    // Check for 'rejected' status and return the appropriate value
+    else if (result.status === 'rejected') {
+      // Adjust error message format to align with your test's expectation
+      return { status: 'rejected', value: `Error: ${result.reason.message}` };
+    }
+    // Explicitly return a value (e.g., undefined) for any other case, though this might never be reached
+    return undefined;
+  });
 }
