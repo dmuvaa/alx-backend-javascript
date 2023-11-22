@@ -3,12 +3,17 @@ const countStudents = require('./3-read_file_async');
 
 const database = process.argv[2];
 
+if (!database) {
+  console.error('Database path not provided. Usage: node 6-http_express.js <path_to_database>');
+  process.exit(1);
+}
+
 const app = express();
 const port = '1245';
 
 app.get('/', (req, res) => {
-    res.send('Hello Holberton School!');
-  });
+  res.send('Hello Holberton School!');
+});
 
 app.get('/students', async (request, response) => {
   try {
