@@ -12,21 +12,23 @@ const app = express();
 const port = '1245';
 
 app.get('/', (req, res) => {
+  res.set('Content-Type', 'text/plain');
   res.send('Hello Holberton School!');
 });
 
-app.get('/students', async (request, response) => {
+app.get('/students', async (req, res) => {
   try {
     const data = await countStudents(database);
     if (data) {
-      const formatedData = data.join('\n');
-      response.send(`This is the list of our students\n${formatedData}`);
+      res.set('Content-Type', 'text/plain');
+      const formattedData = data.join('\n');
+      res.send(`This is the list of our students\n${formattedData}`);
     } else {
-      response.status(500).send('No student data available.');
+      res.status(500).send('No student data available.');
     }
   } catch (error) {
     console.error(error);
-    response.status(500).send('There was an error.');
+    res.status(500).send('There was an error.');
   }
 });
 
