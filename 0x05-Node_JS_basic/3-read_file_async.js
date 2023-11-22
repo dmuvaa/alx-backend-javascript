@@ -13,7 +13,7 @@ function countStudents(path) {
 
       const students = [];
       const response = [];
-      var msg = "";
+      let msg = '';
 
       for (const line of lines) {
         const [firstname, lastname, age, field] = line.split(',');
